@@ -1,19 +1,22 @@
-import Taro, { useEffect } from '@tarojs/taro';
-import { View, Button, Text } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { View, Image } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import { fetchData } from '../../models/bookshelf';
 import { useDidMount } from '../../utils/hooks';
-
 import './index.less';
+
+import ICON_EMPTY from '../../assets/icons/icon_book_empty.png';
 
 function Bookshelf({ loading, books, dispatch }) {
   useDidMount(() => {
-    dispatch(fetchData())
+    dispatch(fetchData());
   });
 
   return (
     <View>
-      <Button>loading: {loading}</Button>
+      <View>
+        <Image className='bookshelf-empty' src={ICON_EMPTY} />
+      </View>
     </View>
   );
 }
