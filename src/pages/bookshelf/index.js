@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { View, Image } from '@tarojs/components';
+import { View, Image, Button } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import { fetchData } from '../../models/bookshelf';
 import { useDidMount } from '../../utils/hooks';
@@ -16,6 +16,17 @@ function Bookshelf({ loading, books, dispatch }) {
     <View>
       <View>
         <Image className='bookshelf-empty' src={ICON_EMPTY} />
+        <Button
+          onClick={() =>
+            
+            Taro.navigateTo({
+              url:
+                '/pages/reading/index?id=568fef99adb27bfb4b3a58dc&title=最强狂兵',
+            })
+          }
+        >
+          阅读
+        </Button>
       </View>
     </View>
   );

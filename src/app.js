@@ -1,6 +1,7 @@
 import '@tarojs/async-await';
 import Taro, { Component } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
+import 'taro-ui/dist/style/index.scss';
 
 import Index from './pages/index';
 
@@ -19,7 +20,7 @@ const store = configStore();
 class App extends Component {
   // eslint-disable-next-line react/sort-comp
   config = {
-    pages: ['pages/mine/index', 'pages/bookshelf/index'],
+    pages: ['pages/mine/index', 'pages/bookshelf/index', 'pages/reading/index'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
