@@ -1,4 +1,4 @@
-import Taro, { useRouter, useEffect } from '@tarojs/taro';
+import Taro, { useRouter } from '@tarojs/taro';
 import {
   View,
   Image,
@@ -9,15 +9,9 @@ import {
 } from '@tarojs/components';
 import { AtActivityIndicator } from 'taro-ui';
 import Chapter from './chapter';
-import { useDidMount, useMergedState } from '../../utils/hooks';
+import { useDidMount, useMergedState, useDidUpdate } from '../../utils/hooks';
 import { decodeURI, isWeb } from '../../utils';
 import './index.less';
-
-function fetchChapter(link) {
-  return Taro.request({
-    url: `/chapter/${link}`,
-  }).then(res => res.data.chapter);
-}
 
 function Reading() {
   const { params } = useRouter();
@@ -31,11 +25,14 @@ function Reading() {
     loading: false,
     chapters: [],
     preload: 1,
-    current: 0,
+    current: -1,
     index: 0,
   });
+  const preloadChapters = chapters.filter(c => !!c.chapter);
 
-  const preloadChapters = 
+  const handleSwipe = e => {
+    setState({ index: e.detail.current });
+  };
 
   useDidMount(() => {
     if (isWeb) {
@@ -48,6 +45,7 @@ function Reading() {
         setState({
           loading: false,
           chapters: res.data.chapters,
+          current: 0,
         });
       })
       .catch(err => {
@@ -59,8 +57,8 @@ function Reading() {
       });
   });
 
-  useEffect(() => {
-    if (chapters.length === 0) return;
+  useDidUpdate(() => {
+    if (preloadChapters.length === chapters.length) return;
 
     const promises = Array.from({ length: preload * 2 + 1 }).map((_, i) => {
       const chapter = chapters[current - preload + i];
@@ -68,7 +66,7 @@ function Reading() {
       return chapter.chapter
         ? Promise.resolve(chapter)
         : Taro.request({ url: `/chapter/${chapter.link}` }).then(res => {
-            chapter.chapter = res;
+            chapter.chapter = res.data.chapter;
             return res;
           });
     });
@@ -85,24 +83,26 @@ function Reading() {
           icon: 'none',
         });
       });
-  }, [chapters, current, preload, setState]);
+  }, [current]);
 
-  const handleSwipe = e => {
-    setState({ index: e.detail.current });
-  };
+  console.log(preloadChapters);
 
   return (
     <View className='bookread'>
-      <Swiper
+      <View className='bookread-page'>
+        <View className='bookread-page-title'>
+          <Text>{book}</Text>
+        </View>
+      </View>
+
+      {/* <Swiper
         skipHiddenItemLayout
         className='bookread-page'
         current={index}
         onChange={handleSwipe}
       >
         <SwiperItem>
-          <View className='at-article'>
-            <View className='at-article__h1'>{book}</View>
-          </View>
+    
         </SwiperItem>
         {}
         <SwiperItem>
@@ -111,9 +111,9 @@ function Reading() {
         <SwiperItem>
           <View className='demo-text-3'>3</View>
         </SwiperItem>
-      </Swiper>
-      {chapters.map(c => (
-        <Chapter mode='vertical' {...c.chapter} />
+      </Swiper> */}
+      {preloadChapters.map(c => (
+        <Chapter mode='vertical' key={c._id} {...c.chapter} />
       ))}
 
       {/* <AtActivityIndicator color='#b2b2b2' size={48} mode='center' /> */}

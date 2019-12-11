@@ -5,12 +5,12 @@ export function VChapter({ title = '', content = '' }) {
   const sections = content.replace(/\r\n/g, '\n').split('\n');
   return (
     <View className='bookread-chapter'>
-      <View className='at-article'>
-        <View className='at-article__h1'>{title}</View>
+      <View className='bookread-chapter-title'>
+        <Text>{title}</Text>
       </View>
       {sections.map((s, i) => (
-        <View key={i} className='bookread-section'>
-          {s}
+        <View key={i} className='bookread-chapter-section'>
+          <Text>{s}</Text>
         </View>
       ))}
     </View>
