@@ -8,12 +8,13 @@ import {
   SwiperItem,
 } from '@tarojs/components';
 import { AtActivityIndicator } from 'taro-ui';
+import { connect } from '@tarojs/redux';
 import Chapter from './chapter';
 import { useDidMount, useMergedState, useDidUpdate } from '../../utils/hooks';
 import { decodeURI, isWeb } from '../../utils';
 import './index.less';
 
-function Reading() {
+function Reading({ fontSize, fontFamily, backgroundColor, foregroundColor }) {
   const { params } = useRouter();
   const { id, title = '' } = params;
   const book = decodeURI(title);
@@ -85,12 +86,13 @@ function Reading() {
       });
   }, [current]);
 
-  console.log(preloadChapters);
-
   return (
-    <View className='bookread'>
+    <View
+      className='bookread'
+      style={{ backgroundColor, color: foregroundColor }}
+    >
       <View className='bookread-page'>
-        <View className='bookread-page-title'>
+        <View className='bookread-title'>
           <Text>{book}</Text>
         </View>
       </View>
@@ -113,7 +115,14 @@ function Reading() {
         </SwiperItem>
       </Swiper> */}
       {preloadChapters.map(c => (
-        <Chapter mode='vertical' key={c._id} {...c.chapter} />
+        <Chapter
+          mode='vertical'
+          key={c._id}
+          title={c.chapter.title}
+          content={c.chapter.cpContent}
+          backgroundColor={backgroundColor}
+          foregroundColor={foregroundColor}
+        />
       ))}
 
       {/* <AtActivityIndicator color='#b2b2b2' size={48} mode='center' /> */}
@@ -126,4 +135,4 @@ Reading.config = {
   navigationStyle: 'custom',
 };
 
-export default Reading;
+export default connect(state => state.global)(Reading);

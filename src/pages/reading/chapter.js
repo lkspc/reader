@@ -1,10 +1,21 @@
 import Taro from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 
-export function VChapter({ title = '', content = '' }) {
-  const sections = content.replace(/\r\n/g, '\n').split('\n');
+export function VChapter({
+  title = '',
+  content = '',
+  backgroundColor,
+  foregroundColor,
+}) {
+  const sections = content
+    .replace(/\r\n/g, '\n')
+    .replace('\n', '')
+    .split('\n');
   return (
-    <View className='bookread-chapter'>
+    <View
+      className='bookread-chapter'
+      style={{ backgroundColor, color: foregroundColor }}
+    >
       <View className='bookread-chapter-title'>
         <Text>{title}</Text>
       </View>
