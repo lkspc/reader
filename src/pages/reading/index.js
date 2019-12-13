@@ -87,12 +87,12 @@ function Reading({ fontSize, fontFamily, backgroundColor, foregroundColor }) {
   }, [current]);
 
   return (
-    <View
-      className='bookread'
-      style={{ backgroundColor, color: foregroundColor }}
-    >
+    <View className='bookread' style={{ backgroundColor }}>
       <View className='bookread-page'>
-        <View className='bookread-title'>
+        <View
+          className='bookread-title'
+          style={{ color: foregroundColor, fontFamily, fontSize }}
+        >
           <Text>{book}</Text>
         </View>
       </View>
@@ -118,8 +118,11 @@ function Reading({ fontSize, fontFamily, backgroundColor, foregroundColor }) {
         <Chapter
           mode='vertical'
           key={c._id}
+          loading={loading}
           title={c.chapter.title}
           content={c.chapter.cpContent}
+          fontSize={fontSize}
+          fontFamily={fontFamily}
           backgroundColor={backgroundColor}
           foregroundColor={foregroundColor}
         />
