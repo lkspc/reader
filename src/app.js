@@ -1,11 +1,9 @@
 import '@tarojs/async-await';
 import Taro, { Component } from '@tarojs/taro';
 import { Provider } from '@tarojs/redux';
-
-import Index from './pages/index';
-
 import configStore from './store';
-
+import Index from './pages/index';
+import './themes/index.scss';
 import './app.less';
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -19,12 +17,13 @@ const store = configStore();
 class App extends Component {
   // eslint-disable-next-line react/sort-comp
   config = {
-    pages: ['pages/mine/index', 'pages/bookshelf/index'],
+    pages: ['pages/mine/index', 'pages/bookshelf/index', 'pages/search/index'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'Reader',
       navigationBarTextStyle: 'black',
+      backgroundColor: '#f8f8f8',
     },
     tabBar: {
       color: '#7a7e83',

@@ -1,6 +1,13 @@
-export function fetchData() {
-  return { type: 'bookshelf/fetch', payload: { loading: true } };
-}
+import Taro from '@tarojs/taro';
+
+export const fetchData = () => dispatch => {
+  Taro.getStorage({ key: 'bookshelf' }).then(res => {
+    dispatch({
+      type: 'bookshelf/fetch',
+      payload: res.data || [],
+    });
+  });
+};
 
 export default {
   namespace: 'bookshelf',
@@ -12,7 +19,7 @@ export default {
     'bookshelf/fetch'(state, { payload }) {
       return {
         ...state,
-        ...payload,
+        books: state.books.concat(payload),
       };
     },
   },

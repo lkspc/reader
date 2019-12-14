@@ -1,4 +1,54 @@
 .bookshelf-empty {
-  width: 64px;
-  height: 64px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 0;
+}
+
+.bookshelf-image {
+  width: 128px;
+  height: 128px;
+}
+
+.bookshelf-text {
+  display: block;
+  font-size: 28px;
+  color: #888;
+}
+
+.bookshelf-search {
+  /* prettier-ignore */
+  height: 30PX;
+  padding-top: 24px;
+
+  .at-search-bar__placeholder-wrap {
+    justify-content: flex-start;
+  }
+}
+
+.bookshelf-books {
+  padding: 40px 0 0 40px;
+  display: flex;
+}
+
+.bookshelf-book {
+  width: 200px;
+  font-size: 0;
+  margin-right: 40px;
+}
+
+.bookshelf-cover {
+  width: 100%;
+  height: 280px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35), 0 0 10px #f9f2e9 inset;
+}
+
+.bookshelf-title {
+  display: block;
+  font-size: 28px;
+  color: #333;
+  margin-top: 10px;
 }
