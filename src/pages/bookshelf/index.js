@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro';
-import { View, Image, Text, Block } from '@tarojs/components';
+import { View, Image, Text, Block, Button } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
 import { connect } from '@tarojs/redux';
 import { fetchData } from '../../models/bookshelf';
@@ -39,6 +39,18 @@ function Bookshelf({ loading, books, dispatch }) {
         onClick={() => Taro.navigateTo({ url: '/pages/search/index' })}
       >
         <AtSearchBar fixed placeholder='搜索书名、作者' disabled />
+      </View>
+      <View>
+        <Button
+          onClick={() =>
+            Taro.navigateTo({
+              url:
+                '/pages/reading/index?id=568fef99adb27bfb4b3a58dc&title=最强狂兵',
+            })
+          }
+        >
+          阅读
+        </Button>
       </View>
       {books.length > 0 ? (
         <View className='bookshelf-books'>

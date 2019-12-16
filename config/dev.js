@@ -7,11 +7,13 @@ module.exports = {
   h5: {
     devServer: {
       proxy: {
-        '/api/': {
+        '/api': {
           target: 'http://api.zhuishushenqi.com',
-          pathRewrite: {
-            '^/api/': '/',
-          },
+          pathRewrite: { '^/api': '' },
+          changeOrigin: true,
+        },
+        '/chapter': {
+          target: 'http://chapterup.zhuishushenqi.com',
           changeOrigin: true,
         },
       },

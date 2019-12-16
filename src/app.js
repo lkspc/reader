@@ -17,7 +17,12 @@ const store = configStore();
 class App extends Component {
   // eslint-disable-next-line react/sort-comp
   config = {
-    pages: ['pages/mine/index', 'pages/bookshelf/index', 'pages/search/index'],
+    pages: [
+      'pages/mine/index',
+      'pages/bookshelf/index',
+      'pages/search/index',
+      'pages/reading/index',
+    ],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
