@@ -4,17 +4,17 @@ import { View, Text } from '@tarojs/components';
 export function VChapter({
   title = '',
   content = '',
-  backgroundColor,
-  foregroundColor,
+
 }) {
   const sections = content
     .replace(/\r\n/g, '\n')
     .replace('\n', '')
     .split('\n');
+
   return (
     <View
       className='bookread-chapter'
-      style={{ backgroundColor, color: foregroundColor }}
+     // style={{ backgroundColor, color: foregroundColor, fontSize, fontFamily }}
     >
       <View className='bookread-chapter-title'>
         <Text>{title}</Text>

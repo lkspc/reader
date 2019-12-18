@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro';
 
 const GLOBAL_KEY = 'global';
 
+Taro.initPxTransform({ designWidth: 750, deviceRatio: 1 });
+
 export const init = () => dispatch => {
   Taro.getStorage({ key: GLOBAL_KEY }).then(res => {
     dispatch({ type: 'global/init', payload: res.data });
@@ -11,9 +13,9 @@ export const init = () => dispatch => {
 export default {
   namespace: 'global',
   state: {
-    fontSize: 36,
+    fontSize: Taro.pxTransform(36),
     fontFamily: '-apple-system-font, "Helvetica Neue", sans-serif',
-    backgroundColor: '#dcd3c5',
+    backgroundColor: '#dcd3c4',
     foregroundColor: '#333',
   },
   reducers: {
