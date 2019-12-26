@@ -1,41 +1,49 @@
-import Taro from '@tarojs/taro';
+import Taro, { useEffect, useState, useMemo } from '@tarojs/taro';
 import { View, Text, Block } from '@tarojs/components';
+import { connect } from '@tarojs/redux';
+import { fetchChapter } from '../../models/chapter';
 
-export function VChapter({ title = '', content = '', loading }) {
-  const sections = content
-    .replace(/\r\n/g, '\n')
-    .replace('\n', '')
-    .split('\n');
+function Chapter({ mode = 'vertical', key, link, title, chapters, dispatch }) {
+  const [loading, setLoading] = useState(true);
+  const chapter = chapters[key];
+  const chapterTitle = chapter ? chapter.title : title;
+  const sections = useMemo(() => {
+    return chapter
+      ? chapter.cpContent
+          .replace(/\r\n/g, '\n')
+          .replace(/\\n/g, '')
+          .split('\n')
+      : [];
+  }, [chapter]);
+
+  useEffect(() => {
+    if (!chapter) {
+      dispatch(fetchChapter(link)).then(() => {
+        setLoading(false);
+      });
+    }
+  }, [chapter, dispatch, link]);
 
   return (
     <View className='bookread-chapter'>
-      {loading ? (
-        <View className='bookread-chapter-loading'>
-          <Text>加载中, 请稍候...</Text>
+      <Block>
+        <View className='bookread-chapter-title'>
+          <Text>{chapterTitle}</Text>
         </View>
-      ) : (
-        <Block>
-          <View className='bookread-chapter-title'>
-            <Text>{title}</Text>
+        {loading ? (
+          <View className='bookread-chapter-loading'>
+            <Text>加载中, 请稍候...</Text>
           </View>
-          {sections.map((s, i) => (
+        ) : (
+          sections.map((s, i) => (
             <View key={i} className='bookread-chapter-section'>
               <Text>{s}</Text>
             </View>
-          ))}
-        </Block>
-      )}
+          ))
+        )}
+      </Block>
     </View>
   );
 }
 
-export function HChapter() {}
-
-// eslint-disable-next-line react/no-multi-comp
-export default function Chapter({ mode = 'vertical', ...props }) {
-  return mode === 'vertical' ? (
-    <VChapter {...props} />
-  ) : (
-    <HChapter {...props} />
-  );
-}
+export default connect(state => state.chapter)(Chapter);

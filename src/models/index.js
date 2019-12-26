@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import bookshelf from './bookshelf';
 import global from './global';
+import chapter from './chapter';
 
 function createReducer(initilaState, reducerMap) {
   return function reducer(state = initilaState, action) {
@@ -17,4 +18,4 @@ function convertModels(models) {
   }, {});
 }
 
-export default combineReducers(convertModels([bookshelf, global]));
+export default combineReducers(convertModels([bookshelf, global, chapter]));
