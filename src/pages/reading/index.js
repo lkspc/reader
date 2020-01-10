@@ -1,27 +1,40 @@
-import Taro, { useRouter, useMemo } from '@tarojs/taro';
+import Taro, {
+  useRouter,
+  useMemo,
+  useReachBottom,
+  useCallback,
+} from '@tarojs/taro';
 import { View, Text } from '@tarojs/components';
 import { connect } from '@tarojs/redux';
 import Chapter from './chapter';
 import { useDidMount, useMergedState } from '../../utils/hooks';
-import { decodeURI, isWeb } from '../../utils';
+import { decodeURI, isWeb, noop } from '../../utils';
 import './index.less';
 
-const PRELOAD_COUNT = 1;
+const PRELOAD_COUNT = 3;
+
+function ReachBottom({ onReachBottom = noop }) {
+  useReachBottom(onReachBottom);
+  return null;
+}
 
 function Reading({ fontSize, fontFamily, backgroundColor, foregroundColor }) {
   const { params } = useRouter();
-  const { id, title = '' } = params;
+  const { id, title = '', page = 1 } = params;
   const book = decodeURI(title);
 
-  const [{ loading, chapters, current }, setState] = useMergedState({
+  const [{ chapters, count }, setState] = useMergedState({
     loading: true,
     chapters: [],
-    current: 0,
+    count: PRELOAD_COUNT,
   });
   const visibleChapters = useMemo(() => {
-    const start = Math.max(current - PRELOAD_COUNT, 0);
-    return chapters.slice(start, start + PRELOAD_COUNT * 2 + 1);
-  }, [chapters, current]);
+    return chapters.slice(page - 1, count);
+  }, [chapters, count, page]);
+
+  const handleReachBottom = useCallback(() => {
+    setState(state => ({ count: state.count + 1 }));
+  }, [setState]);
 
   useDidMount(() => {
     if (isWeb) {
@@ -57,6 +70,7 @@ function Reading({ fontSize, fontFamily, backgroundColor, foregroundColor }) {
       {visibleChapters.map(c => (
         <Chapter mode='vertical' key={c._id} link={c.link} title={c.title} />
       ))}
+      <ReachBottom onReachBottom={handleReachBottom} />
     </View>
   );
 }

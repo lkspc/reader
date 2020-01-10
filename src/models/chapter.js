@@ -1,7 +1,8 @@
 import Taro from '@tarojs/taro';
+import { encodeURI } from '../utils';
 
 export const fetchChapter = link => dispatch => {
-  return Taro.request({ url: `/chapter/${link}` })
+  return Taro.request({ url: `/chapter/${encodeURI(link)}` })
     .then(res => {
       const { chapter } = res.data;
       dispatch({

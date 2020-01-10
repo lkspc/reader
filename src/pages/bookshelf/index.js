@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import Taro from '@tarojs/taro';
 import { View, Image, Text, Block, Button } from '@tarojs/components';
 import { AtSearchBar } from 'taro-ui';
@@ -45,7 +46,7 @@ function Bookshelf({ loading, books, dispatch }) {
           onClick={() =>
             Taro.navigateTo({
               url:
-                '/pages/reading/index?id=568fef99adb27bfb4b3a58dc&title=最强狂兵',
+                '/pages/reading/index?id=568fef99adb27bfb4b3a58dc&title=最强狂兵&page=3',
             })
           }
         >

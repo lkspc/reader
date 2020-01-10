@@ -4,7 +4,7 @@ import { connect } from '@tarojs/redux';
 import { fetchChapter } from '../../models/chapter';
 
 function Chapter({ mode = 'vertical', key, link, title, chapters, dispatch }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const chapter = chapters[key];
   const chapterTitle = chapter ? chapter.title : title;
   const sections = useMemo(() => {
@@ -18,6 +18,7 @@ function Chapter({ mode = 'vertical', key, link, title, chapters, dispatch }) {
 
   useEffect(() => {
     if (!chapter) {
+      setLoading(true);
       dispatch(fetchChapter(link)).then(() => {
         setLoading(false);
       });
@@ -25,7 +26,7 @@ function Chapter({ mode = 'vertical', key, link, title, chapters, dispatch }) {
   }, [chapter, dispatch, link]);
 
   return (
-    <View className='bookread-chapter'>
+    <View className='bookread-chapter' title={chapterTitle}>
       <Block>
         <View className='bookread-chapter-title'>
           <Text>{chapterTitle}</Text>
